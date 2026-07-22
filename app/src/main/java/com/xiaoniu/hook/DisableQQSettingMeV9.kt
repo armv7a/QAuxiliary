@@ -28,20 +28,26 @@ import io.github.qauxv.dsl.FunctionEntryRouter
 import io.github.qauxv.hook.CommonSwitchFunctionHook
 import io.github.qauxv.util.dexkit.DexKit
 import io.github.qauxv.util.dexkit.QQSettingMeABTestHelper_isV9ExpGroup
+import io.github.qauxv.util.dexkit.QQSettingTypeManager_isEnableMeTabFromExp
 import xyz.nextalone.util.throwOrTrue
 
 @FunctionHookEntry
 @UiItemAgentEntry
-object DisableQQSettingMeV9 : CommonSwitchFunctionHook(targets = arrayOf(QQSettingMeABTestHelper_isV9ExpGroup)) {
+object DisableQQSettingMeV9 : CommonSwitchFunctionHook(
+    targets = arrayOf(
+        QQSettingMeABTestHelper_isV9ExpGroup,
+        QQSettingTypeManager_isEnableMeTabFromExp,
+    )
+) {
 
     override val name = "禁止新样式侧滑栏"
 
     override val uiItemLocation: Array<String> = FunctionEntryRouter.Locations.Simplify.SLIDING_UI
 
-    //override val isAvailable: Boolean get() = requireMinQQVersion(QQVersion.QQ_8_9_23)
-    //未知哪个版本开始添加的
-
     override fun initOnce() = throwOrTrue {
-        DexKit.requireMethodFromCache(QQSettingMeABTestHelper_isV9ExpGroup).hookReturnConstant(false)
+        // QQ_9_2_66+ uses MMKV-based experiment flag QQSettingTypeManager.isEnableMeTabFromExp
+        // Older versions use AB test method QQSettingMeABTestHelper.isV9ExpGroup
+        DexKit.loadMethodFromCache(QQSettingTypeManager_isEnableMeTabFromExp)?.hookReturnConstant(false)
+        DexKit.loadMethodFromCache(QQSettingMeABTestHelper_isV9ExpGroup)?.hookReturnConstant(false)
     }
 }

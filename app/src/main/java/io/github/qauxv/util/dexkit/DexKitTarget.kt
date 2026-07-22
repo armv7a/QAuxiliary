@@ -935,6 +935,13 @@ data object QQSettingMeABTestHelper_isV9ExpGroup : DexKitTarget.UsingStringVecto
     override val filter: dexkitFilter = DexKitFilter.allowAll
 }
 
+data object QQSettingTypeManager_isEnableMeTabFromExp : DexKitTarget.UsingStr() {
+    override val findMethod: Boolean = true
+    override val traitString: Array<String> = arrayOf("QQ_SETTING_ME_IS_ENABLE_ME_TAB_FROM_EXP")
+    override val declaringClass: String = "com/tencent/mobileqq/utils/eb"
+    override val filter: dexkitFilter = DexKitFilter.allowAll
+}
+
 data object QQValueMethod : DexKitTarget.UsingStr() {
     override val findMethod: Boolean = true
     override val traitString: Array<String> = arrayOf("能量值:")
