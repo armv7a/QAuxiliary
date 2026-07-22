@@ -8,7 +8,9 @@ object Version {
 
     // some dependencies require compileSdkVersion 37+
     const val compileSdkVersion = "37.0"
-    val buildToolsVersion = findBuildToolsVersion()
+    // FIXME: 2026-07-22 Pin build tools to 36.0.0 to avoid "Tag number over 30 is not supported"
+    // error with build-tools 37.0.0 + AGP 9.2.1. Remove this pin when AGP is updated.
+    val buildToolsVersion = "36.0.0"
     const val minSdk = 24
     const val targetSdk = 36
     const val versionName = "1.6.1"
@@ -63,12 +65,5 @@ object Version {
 
     private fun getEnvVariable(name: String): String? {
         return System.getenv(name)
-    }
-
-    private fun findBuildToolsVersion(): String {
-        val defaultBuildToolsVersion = "36.0.0" // AGP 9.0.0 need Build Tools 36.0.0
-        return File(System.getenv("ANDROID_HOME"), "build-tools").listFiles()?.filter { it.isDirectory }?.maxOfOrNull { it.name }
-            ?.also { println("Using build tools version $it") }
-            ?: defaultBuildToolsVersion
     }
 }
