@@ -6,8 +6,10 @@ import java.util.Properties
 object Version {
     val java = JavaVersion.VERSION_11
 
-    // some dependencies require compileSdkVersion 37+
-    const val compileSdkVersion = "37.0"
+    // FIXME: "some dependencies require compileSdkVersion 37+" but AGP 9.2.1
+    // may not fully support SDK 37, causing "Tag number over 30 is not supported".
+    // Revert to 36.1 until AGP is updated.
+    const val compileSdkVersion = "36.1"
     // FIXME: 2026-07-22 Pin build tools to 36.0.0 to avoid "Tag number over 30 is not supported"
     // error with build-tools 37.0.0 + AGP 9.2.1. Remove this pin when AGP is updated.
     val buildToolsVersion = "36.0.0"
